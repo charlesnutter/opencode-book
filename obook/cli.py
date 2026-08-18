@@ -5,7 +5,7 @@ import argparse
 import sys
 from pathlib import Path
 
-from .build import Project
+from .build import ChapterNotFound, Project
 from .corpus import Corpus
 
 
@@ -60,25 +60,50 @@ def cmd_status(args) -> int:
 
 def cmd_build(args) -> int:
     proj = Project(Path(args.root))
-    if args.chapter:
-        targets = [proj.chapter(args.chapter)]
-    else:
-        targets = proj.chapters()
+    try:
+        targets = [proj.chapter(args.chapter)] if args.chapter else proj.chapters()
+    except ChapterNotFound as e:
+        print(e, file=sys.stderr)
+        return 1
     if not targets:
         print("No chapters to build.", file=sys.stderr)
         return 1
 
-    failures = []
-    for name, spec in targets:
+    # Stage-major: every chapter through extract, then every chapter through
+    # draft, and so on. With differentiated role models this loads each model
+    # once per run instead of once per chapter. A single chapter has nothing to
+    # reorder, so it takes the simpler per-chapter path.
+    if len(targets) == 1 and not args.chapter_major:
+        name, spec = targets[0]
         try:
-            proj.build_chapter(
-                name, spec, force=args.force, skip_voice=args.skip_voice
-            )
-        except Exception as e:  # keep going; report at the end
+            proj.build_chapter(name, spec, force=args.force, skip_voice=args.skip_voice)
+        except Exception as e:
             print(f"{name}: FAILED - {e}", file=sys.stderr)
-            failures.append(name)
-    if failures:
-        print(f"\n{len(failures)} chapter(s) failed: {', '.join(failures)}", file=sys.stderr)
+            return 1
+        return 0
+
+    if args.chapter_major:
+        failures = []
+        for name, spec in targets:
+            try:
+                proj.build_chapter(
+                    name, spec, force=args.force, skip_voice=args.skip_voice
+                )
+            except Exception as e:
+                print(f"{name}: FAILED - {e}", file=sys.stderr)
+                failures.append(name)
+        results = [{"chapter": n, "state": "failed"} for n in failures]
+    else:
+        results = proj.build_many(
+            targets, force=args.force, skip_voice=args.skip_voice
+        )
+
+    failed = [r for r in results if r.get("state") in ("failed", "error")]
+    built = [r for r in results if r.get("state") == "built"]
+    print(f"\n{len(built)} built, {len(failed)} failed")
+    if failed:
+        for r in failed:
+            print(f"  {r['chapter']}: {r.get('error', 'failed')}", file=sys.stderr)
         return 1
     return 0
 
@@ -152,6 +177,12 @@ def main(argv=None) -> int:
     s.add_argument("chapter", nargs="?", help="chapter slug; omit to build all")
     s.add_argument("--force", action="store_true", help="rebuild even if current")
     s.add_argument("--skip-voice", action="store_true", help="stop after verify")
+    s.add_argument(
+        "--chapter-major",
+        action="store_true",
+        help="run each chapter through all stages before the next "
+        "(slower with per-role models; useful for debugging one chapter at a time)",
+    )
     s.set_defaults(func=cmd_build)
 
     s = sub.add_parser("bakeoff", help="draft one chapter with several models")

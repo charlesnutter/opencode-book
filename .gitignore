@@ -14,3 +14,7 @@ corpus/docs/
 
 # Publishing inputs you supply (cover art is yours, not generated).
 publish/assets/
+
+# Exported session transcripts. Local record only -- they contain full paths,
+# tool output, and anything pasted mid-session.
+sessions/

@@ -112,12 +112,24 @@ chapter spec  +  prompt templates  +  source excerpts  +  model identity
 `models.yaml` maps *roles* to models, so swapping is a config edit. Defaults are
 tuned for a 64GB M5 Pro (307 GB/s, hard 64GB ceiling):
 
-| Role | Default | Why |
+**Current default: one model for all four roles**, differing only by
+temperature. The differentiated setup (commented in `models.yaml`) is better on
+quality but its three models total ~69 GB against a 64 GB ceiling — they can't
+all stay resident, so each role change evicts and reloads from disk. Prove the
+pipeline on one model, then differentiate.
+
+| Role | Temp | Why |
 |---|---|---|
-| `extract` | gpt-oss-20b (~12GB) | high volume, graded by string match not taste |
-| `draft` | qwen3-30b-a3b-instruct-2507 (~32GB @8bit) | MoE, ~3B active |
-| `verify` | glm-4.7-flash (~24GB @6bit) | deliberately *not* the drafter |
-| `voice` | glm-4.7-flash | the role most worth upgrading |
+| `extract` | 0.1 | near-deterministic; the stage depends on copying quotes exactly |
+| `draft` | 0.4 | the writer |
+| `verify` | 0.0 | auditor — ideally a *different* model; sharing one is a POC compromise |
+| `voice` | 0.7 | room to vary rhythm; first role worth pointing at a hosted API |
+
+Builds are **stage-major**: every chapter through `extract`, then every chapter
+through `draft`, and so on. With per-role models that's one model load per stage
+instead of one per stage *per chapter* — the difference between 4 loads and 32
+on an 8-chapter run. Use `--chapter-major` to run one chapter fully through the
+pipeline at a time when debugging.
 
 **Prefer MoE models on Apple Silicon.** Dense models are bandwidth-bound —
 every parameter is read per token. MoE activates ~3B per token and sidesteps

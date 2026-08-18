@@ -2,48 +2,77 @@
 # model is a one-line edit here. Any OpenAI-compatible server works: MLX
 # (`mlx_lm.server`), LM Studio, Ollama, llama.cpp, or a hosted API.
 #
-# Sizes below are 64GB M5 Pro figures (307 GB/s, hard 64GB ceiling). Prefer MoE
+# Sizes are 64GB M5 Pro figures (307 GB/s, hard 64GB ceiling). Prefer MoE
 # models: they activate only ~3B params per token, which sidesteps the memory
 # bandwidth wall that makes dense models slow on Pro-tier silicon.
+#
+# ---------------------------------------------------------------------------
+# CURRENT SETUP: one model for every role (POC posture).
+#
+# The differentiated setup below is better on quality, but the three models it
+# names total ~69 GB (32.5 + 24.4 + 12.1) against a 64 GB ceiling -- they
+# cannot all stay resident, so every role change evicts and reloads a model
+# from disk. Even with stage-major builds that is 4 loads per run; with the old
+# chapter-major order it was up to 4 per chapter.
+#
+# So: prove the pipeline works on one model first. Differentiate once it runs.
+# ---------------------------------------------------------------------------
 
 defaults:
   base_url: http://localhost:1234/v1   # LM Studio default; MLX server uses :8080
+  model: qwen3-30b-a3b-instruct-2507   # ~17 GB at 4-bit, ~32 GB at 8-bit
   temperature: 0.3
-  max_tokens: 4096
+  max_tokens: 8192
   timeout: 600.0
 
 roles:
-  # High volume, mechanical, runs once per source batch. Speed matters most;
-  # this stage is graded by a string comparison, not by taste.
+  # Mechanical and high volume; graded by string comparison, not by taste.
+  # Low temperature because the whole stage depends on copying quotes exactly.
   extract:
-    model: gpt-oss-20b                       # ~12 GB, 3.6B active, very fast
-    temperature: 0.1                         # near-deterministic quoting
-    max_tokens: 8192                         # claim lists get long
+    temperature: 0.1
 
-  # The main writer. Runs on compact validated claims, never raw sources.
+  # The main writer. Sees compact validated claims, never raw sources.
   draft:
-    model: qwen3-30b-a3b-instruct-2507       # ~32 GB at 8-bit, 3B active
     temperature: 0.4
-    max_tokens: 8192
 
-  # Deliberately a DIFFERENT model than `draft`. A model is a poor auditor of
-  # its own output; independence is the point, not capability.
+  # Ideally NOT the same model as `draft` -- a model is a poor auditor of its
+  # own output. Sharing one model here is a POC compromise, so treat verify
+  # results as weaker evidence than they will be once you split the roles.
   verify:
-    model: glm-4.7-flash                     # ~24 GB at 6-bit
     temperature: 0.0
-    max_tokens: 4096
 
-  # The weakest link for local models. Start local, but this is the role to
-  # point at a hosted API if the prose reads flat -- see README.
+  # The weakest link for local models. First role worth pointing at a hosted
+  # API if the prose reads flat.
   voice:
-    model: glm-4.7-flash
-    temperature: 0.7                         # more room to vary rhythm
-    max_tokens: 8192
+    temperature: 0.7
 
-# Hosted example -- uncomment to run the voice pass against an API instead.
+
+# ---------------------------------------------------------------------------
+# DIFFERENTIATED SETUP -- swap in once the POC runs clean.
+#
+# Requires stage-major builds (the default) so each model loads once per run
+# rather than once per chapter. Still exceeds 64 GB in total, so expect one
+# eviction per stage transition; use 4-bit qwen (~17 GB) to reduce the churn.
+#
 # roles:
+#   extract:
+#     model: gpt-oss-20b                   # ~12 GB, 3.6B active, very fast
+#     temperature: 0.1
+#   draft:
+#     model: qwen3-30b-a3b-instruct-2507   # ~32 GB at 8-bit, 3B active
+#     temperature: 0.4
+#   verify:
+#     model: glm-4.7-flash                 # ~24 GB at 6-bit, independent auditor
+#     temperature: 0.0
+#   voice:
+#     model: glm-4.7-flash
+#     temperature: 0.7
+#
+# Hosted voice pass instead of local:
+#
 #   voice:
 #     base_url: https://api.anthropic.com/v1
 #     model: claude-sonnet-5
 #     api_key_env: ANTHROPIC_API_KEY
 #     temperature: 0.7
+# ---------------------------------------------------------------------------

@@ -191,6 +191,15 @@ class Pipeline:
             out = out.get("issues", [])
         return out if isinstance(out, list) else []
 
+    def revise(self, draft_text: str, issues: list[dict]) -> str:
+        """Surgically repair passages the verify stage flagged as unsupported."""
+        user = render(
+            self.prompts["revise_user"],
+            draft=draft_text,
+            issues=json.dumps(issues, indent=2),
+        )
+        return self.models.complete("draft", self.prompts["revise"], user)
+
     def voice(self, spec: dict, draft_text: str) -> str:
         system = render(
             self.prompts["voice"],
@@ -199,6 +208,25 @@ class Pipeline:
         )
         user = render(self.prompts["voice_user"], spec=self._spec_blob(spec), draft=draft_text)
         return self.models.complete("voice", system, user)
+
+    def finish(
+        self, body: str, result: ValidationResult, issues: list[dict]
+    ) -> dict:
+        """Attach sources and package the artifact. No model calls."""
+        commit = self.corpus.lock["commit"]
+        if str(self.book.get("citation_style", "chapter")).lower() == "inline":
+            notes = footnotes(result.accepted, self.corpus, commit)
+        else:
+            notes = source_list(result.accepted, self.corpus, commit)
+        markdown = f"{body.strip()}\n\n---\n\n## Sources\n\n{notes}\n"
+        return {
+            "markdown": markdown,
+            "claims": [c.__dict__ for c in result.accepted],
+            "rejected": [
+                {"claim": c.__dict__, "reason": w} for c, w in result.rejected
+            ],
+            "issues": issues,
+        }
 
     # ---------------------------------------------------------------- runner
 
@@ -233,28 +261,14 @@ class Pipeline:
             if not unsupported or attempt == max_revisions:
                 break
             log("  revising unsupported passages...")
-            fix_user = render(
-                self.prompts["revise_user"],
-                draft=body,
-                issues=json.dumps(unsupported, indent=2),
-            )
-            body = self.models.complete("draft", self.prompts["revise"], fix_user)
+            body = self.revise(body, unsupported)
 
         if not skip_voice:
             body = self.voice(spec, body)
             log(f"  voice:    {len(body.split())} words")
 
-        commit = self.corpus.lock["commit"]
-        if str(self.book.get("citation_style", "chapter")).lower() == "inline":
-            notes = footnotes(result.accepted, self.corpus, commit)
-        else:
-            notes = source_list(result.accepted, self.corpus, commit)
-        markdown = f"{body.strip()}\n\n---\n\n## Sources\n\n{notes}\n"
-
+        out = self.finish(body, result, issues)
         return {
-            "markdown": markdown,
-            "claims": [c.__dict__ for c in result.accepted],
-            "rejected": [{"claim": c.__dict__, "reason": w} for c, w in result.rejected],
-            "issues": issues,
+            **out,
             "raw_claim_count": len(raw_claims),
         }
