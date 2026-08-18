@@ -1,0 +1,24 @@
+id: agents
+title: Agents and Subagents
+target_words: 2600
+
+objectives:
+  - Distinguish primary agents from subagents in plain language
+  - Tour the built-in agents and when each is the right reach
+  - Configure a custom agent in both JSON and markdown
+  - Explain per-agent model, prompt, and permission scoping
+
+sources:
+  - agents.mdx#types
+  - agents.mdx#primary-agents
+  - agents.mdx#subagents
+  - agents.mdx#built-in
+  - agents.mdx#usage
+  - agents.mdx#configure
+  - agents.mdx#json
+  - agents.mdx#markdown
+  - agents.mdx#model
+  - agents.mdx#prompt
+  - agents.mdx#permissions
+  - agents.mdx#max-steps
+  - agents.mdx#security-auditor

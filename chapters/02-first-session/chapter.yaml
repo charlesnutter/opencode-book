@@ -1,0 +1,24 @@
+id: first-session
+title: Your First Session
+target_words: 2200
+
+objectives:
+  - Get opencode installed and authenticated without guesswork
+  - Run a first real task end to end, not a toy prompt
+  - Show the four everyday moves: ask, add, change, undo
+  - Explain what the agent is doing to the working tree, and how to back out
+
+sources:
+  - index.mdx#install
+  - index.mdx#initialize
+  - index.mdx#usage
+  - index.mdx#ask-questions
+  - index.mdx#add-features
+  - index.mdx#make-changes
+  - index.mdx#undo-changes
+  - index.mdx#share
+
+notes: >
+  Undo deserves real weight here. The single biggest blocker to trusting an
+  agent is not knowing how to reverse it, so cover that before anything
+  ambitious.

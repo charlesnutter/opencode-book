@@ -1,0 +1,19 @@
+id: why-harnesses
+title: Model Plus Harness
+target_words: 1800
+
+objectives:
+  - Establish that an agent is a model plus everything around it
+  - Explain why harness configuration outweighs model choice in daily use
+  - Set up the book's throughline: every capability later is a harness lever
+  - Orient the reader who has only ever used chat-style prompting
+
+sources:
+  - index.mdx
+  - index.mdx#usage
+
+notes: >
+  Thin on opencode-specific sources by design -- this is the conceptual opener.
+  When you expand the corpus with third-party material (see README, "Growing
+  the corpus"), this is the chapter that benefits most. Until then it will be
+  short and grounded only in what the official docs actually assert.

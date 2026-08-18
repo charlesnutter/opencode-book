@@ -1,0 +1,21 @@
+id: permissions
+title: Permissions, or How to Sleep at Night
+target_words: 2200
+
+objectives:
+  - Explain the permission model before any syntax appears
+  - Cover defaults and exactly what "ask" does
+  - Work through granular object syntax, wildcards, external directories
+  - Give a recommended starting posture and say why
+
+sources:
+  - permissions.mdx#configuration
+  - permissions.mdx#defaults
+  - permissions.mdx#available-permissions
+  - permissions.mdx#what-ask-does
+  - permissions.mdx#actions
+  - permissions.mdx#granular-rules-object-syntax
+  - permissions.mdx#wildcards
+  - permissions.mdx#external-directories
+  - permissions.mdx#agents
+  - permissions.mdx#auto-mode

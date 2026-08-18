@@ -1,0 +1,21 @@
+[project]
+name = "obook"
+version = "0.1.0"
+description = "Build a book from opencode's documentation, with grounded sources."
+requires-python = ">=3.10"
+dependencies = [
+    "pyyaml>=6.0",
+    "httpx>=0.27",
+]
+
+[project.scripts]
+obook = "obook.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+# corpus/, prompts/, chapters/ and voice/ are book content, not Python
+# packages -- name the one real package so auto-discovery doesn't claim them.
+[tool.setuptools]
+packages = ["obook"]

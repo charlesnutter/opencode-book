@@ -1,0 +1,23 @@
+id: rules-and-context
+title: Teaching the Agent Your Codebase
+target_words: 2000
+
+objectives:
+  - Make the case for rules files as accumulated, hard-won project knowledge
+  - Show initialization and where rules files are picked up
+  - Cover external file loading for larger rule sets
+  - Walk through rules for a monorepo, where conventions matter most
+
+sources:
+  - rules.mdx#initialize
+  - rules.mdx#example
+  - rules.mdx#custom-instructions
+  - rules.mdx#external-file-loading
+  - rules.mdx#general-guidelines
+  - rules.mdx#code-standards
+  - rules.mdx#monorepo-conventions
+  - rules.mdx#typescript-project-rules
+
+notes: >
+  Frame every rule as traceable to something that went wrong once. That framing
+  is what turns a rules file from boilerplate into a real asset.

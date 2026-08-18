@@ -1,0 +1,49 @@
+# Roles -> models. Stages ask for a role, never a model name, so swapping a
+# model is a one-line edit here. Any OpenAI-compatible server works: MLX
+# (`mlx_lm.server`), LM Studio, Ollama, llama.cpp, or a hosted API.
+#
+# Sizes below are 64GB M5 Pro figures (307 GB/s, hard 64GB ceiling). Prefer MoE
+# models: they activate only ~3B params per token, which sidesteps the memory
+# bandwidth wall that makes dense models slow on Pro-tier silicon.
+
+defaults:
+  base_url: http://localhost:1234/v1   # LM Studio default; MLX server uses :8080
+  temperature: 0.3
+  max_tokens: 4096
+  timeout: 600.0
+
+roles:
+  # High volume, mechanical, runs once per source batch. Speed matters most;
+  # this stage is graded by a string comparison, not by taste.
+  extract:
+    model: gpt-oss-20b                       # ~12 GB, 3.6B active, very fast
+    temperature: 0.1                         # near-deterministic quoting
+    max_tokens: 8192                         # claim lists get long
+
+  # The main writer. Runs on compact validated claims, never raw sources.
+  draft:
+    model: qwen3-30b-a3b-instruct-2507       # ~32 GB at 8-bit, 3B active
+    temperature: 0.4
+    max_tokens: 8192
+
+  # Deliberately a DIFFERENT model than `draft`. A model is a poor auditor of
+  # its own output; independence is the point, not capability.
+  verify:
+    model: glm-4.7-flash                     # ~24 GB at 6-bit
+    temperature: 0.0
+    max_tokens: 4096
+
+  # The weakest link for local models. Start local, but this is the role to
+  # point at a hosted API if the prose reads flat -- see README.
+  voice:
+    model: glm-4.7-flash
+    temperature: 0.7                         # more room to vary rhythm
+    max_tokens: 8192
+
+# Hosted example -- uncomment to run the voice pass against an API instead.
+# roles:
+#   voice:
+#     base_url: https://api.anthropic.com/v1
+#     model: claude-sonnet-5
+#     api_key_env: ANTHROPIC_API_KEY
+#     temperature: 0.7

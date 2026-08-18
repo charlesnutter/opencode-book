@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+
+# Generated chapters and their audit trails. Regenerable from corpus + prompts,
+# so they stay out of git by default. Drop this line if you want to review
+# prose changes as diffs in PRs -- that is a reasonable choice for a book.
+build/
+
+# Vendored docs are pulled by `obook sync` and pinned in corpus/lock.json.
+# The lock file IS committed; the doc bodies are not.
+corpus/docs/
+*.egg-info/

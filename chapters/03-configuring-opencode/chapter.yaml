@@ -1,0 +1,19 @@
+id: configuring
+title: Configuration That Survives Contact With a Real Project
+target_words: 2400
+
+objectives:
+  - Explain where config lives and which file wins when several apply
+  - Cover the schema well enough that readers stop copy-pasting blindly
+  - Show variable substitution and per-project overrides
+  - Give a worked config for a realistic repo
+
+sources:
+  - config.mdx#format
+  - config.mdx#locations
+  - config.mdx#schema
+  - config.mdx#variables
+
+notes: >
+  config.mdx#schema is ~2100 words on its own, so this chapter will batch
+  during extraction. That is expected and fine.

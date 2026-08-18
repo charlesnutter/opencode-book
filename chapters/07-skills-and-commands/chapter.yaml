@@ -1,0 +1,19 @@
+id: skills
+title: Skills and Commands
+target_words: 2000
+
+objectives:
+  - Explain what a skill is and how discovery works
+  - Show file placement and the length rules that trip people up
+  - Cover per-agent overrides and permission scoping
+  - Troubleshoot a skill that will not load
+
+sources:
+  - skills.mdx#understand-discovery
+  - skills.mdx#place-files
+  - skills.mdx#follow-length-rules
+  - skills.mdx#recognize-tool-description
+  - skills.mdx#configure-permissions
+  - skills.mdx#override-per-agent
+  - skills.mdx#troubleshoot-loading
+  - skills.mdx#disable-the-skill-tool

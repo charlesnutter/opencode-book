@@ -1,0 +1,23 @@
+id: mcp
+title: Extending opencode with MCP Servers
+target_words: 2400
+
+objectives:
+  - Explain what MCP buys you, and when a skill or custom tool is the better fit
+  - Configure both local and remote servers
+  - Walk the OAuth flow, including how to check auth state
+  - Debug a server that will not connect
+
+sources:
+  - mcp-servers.mdx#local
+  - mcp-servers.mdx#remote
+  - mcp-servers.mdx#enable
+  - mcp-servers.mdx#manage
+  - mcp-servers.mdx#oauth
+  - mcp-servers.mdx#authenticating
+  - mcp-servers.mdx#examples
+  - mcp-servers.mdx#debug-connection-and-oauth-flow-for-a-specific-server
+
+notes: >
+  The MCP-vs-skills-vs-custom-tools tradeoff is the genuinely useful part here.
+  Readers can find setup steps in the docs; they cannot find judgement.

@@ -1,0 +1,227 @@
+{
+  "repo": "anomalyco/opencode",
+  "ref": "dev",
+  "commit": "040b8561400fcbe84eaf8d045ede46fc014e2d00",
+  "docs_path": "packages/web/src/content/docs",
+  "retrieved_at": "2026-08-18T03:31:59+00:00",
+  "file_count": 36,
+  "total_words": 49468,
+  "files": {
+    "acp.mdx": {
+      "sha256": "3a12f4d9c60fdb150a8be30bcc09d0c66d0db01695a30ff71164094c155ffbe2",
+      "bytes": 3557,
+      "words": 437,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/acp.mdx"
+    },
+    "agents.mdx": {
+      "sha256": "0941601a02a57c97aa2072bd8accb15900dc6c78e78d99de44435c17e62e6b32",
+      "bytes": 20515,
+      "words": 2723,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/agents.mdx"
+    },
+    "cli.mdx": {
+      "sha256": "a6ed4d307713067695a7cfc141c2f4f0b25f9ac95ac252f651eb0bb6d1b591ef",
+      "bytes": 27194,
+      "words": 2852,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/cli.mdx"
+    },
+    "commands.mdx": {
+      "sha256": "33ae3aa2df77e8206b27114d05825a419f9188766be07a90f1e09bab7a81bb78",
+      "bytes": 6766,
+      "words": 938,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/commands.mdx"
+    },
+    "config.mdx": {
+      "sha256": "720ca166ada4a5b1708d2c26afe06e7ddc04cc9567c63d27d7ae5d6cf7c9b677",
+      "bytes": 26364,
+      "words": 3191,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/config.mdx"
+    },
+    "custom-tools.mdx": {
+      "sha256": "0a5df35e96df711324244d91fc3d16001bca81cea5b91f86207a8fc55f1209fc",
+      "bytes": 4930,
+      "words": 632,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/custom-tools.mdx"
+    },
+    "ecosystem.mdx": {
+      "sha256": "06df5ccb93a119bae94b8be740b453fe56bb94cea82edcfd47d395cb98faa4db",
+      "bytes": 11280,
+      "words": 785,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/ecosystem.mdx"
+    },
+    "enterprise.mdx": {
+      "sha256": "d0f723fce09479dbeb419c111dd838de9858b94a7dd96b4374ef27096cf45ac1",
+      "bytes": 5485,
+      "words": 779,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/enterprise.mdx"
+    },
+    "formatters.mdx": {
+      "sha256": "fc636b6c30bb44e10dd4d3ed63ba3d22caf2b9d58da9b7855e844c5af1968a42",
+      "bytes": 10050,
+      "words": 734,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/formatters.mdx"
+    },
+    "github.mdx": {
+      "sha256": "c8ee100862e00738d72d49c93733759f369cb9bac3b8f23d394492b505a74727",
+      "bytes": 10860,
+      "words": 1285,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/github.mdx"
+    },
+    "gitlab.mdx": {
+      "sha256": "4c450fe55d675a23031440988e3225aa8cf92d332c907f04b9820496d0cfe284",
+      "bytes": 6534,
+      "words": 826,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/gitlab.mdx"
+    },
+    "go.mdx": {
+      "sha256": "686330996bb1d1af54d17f87d3fca0fb31af083f5449a295a1cdff3f7e72b9b5",
+      "bytes": 14874,
+      "words": 2140,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/go.mdx"
+    },
+    "ide.mdx": {
+      "sha256": "0ef1c720c3be3585eae0709b5c9479566048d43be841cc03511e30ffa41c26c9",
+      "bytes": 1901,
+      "words": 289,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/ide.mdx"
+    },
+    "index.mdx": {
+      "sha256": "24965a7337d45325edb9ba6ca44e4b528b7e1ead00134794b3202745f1e1bd9d",
+      "bytes": 8371,
+      "words": 1190,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/index.mdx"
+    },
+    "keybinds.mdx": {
+      "sha256": "fb4839da68f9104b2f3574176e73f414f3a1352b5238a6e9f3c926af843a8953",
+      "bytes": 9807,
+      "words": 841,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/keybinds.mdx"
+    },
+    "lsp.mdx": {
+      "sha256": "62584a2f8bafdf8c910c445c1887d689125f2b5123af264e73d89845b982b3cd",
+      "bytes": 10432,
+      "words": 1065,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/lsp.mdx"
+    },
+    "mcp-servers.mdx": {
+      "sha256": "3e99f66ed4a4a40d238b539497bb8739a140e94aa7ab27fd08e4ee0c3a0c6102",
+      "bytes": 13991,
+      "words": 1805,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/mcp-servers.mdx"
+    },
+    "models.mdx": {
+      "sha256": "2c8f7c813c7e80e55d71801d8f0b3ce23884f2c279dc4a1bac122e79198f2482",
+      "bytes": 5530,
+      "words": 694,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/models.mdx"
+    },
+    "network.mdx": {
+      "sha256": "3fe58939d928838b9944a215e090f093dd12032ca3d58583cd4c00197174f2d6",
+      "bytes": 1413,
+      "words": 172,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/network.mdx"
+    },
+    "permissions.mdx": {
+      "sha256": "e929098f6f772186eeb4f0eb55e332c477d88e30cb1efc45d0839dfa333b5163",
+      "bytes": 7449,
+      "words": 1020,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/permissions.mdx"
+    },
+    "plugins.mdx": {
+      "sha256": "4cc0d8db8645a036d1398a9e3be65c386ab75d003a2699c14bc06c267ea1354f",
+      "bytes": 9473,
+      "words": 1261,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/plugins.mdx"
+    },
+    "policies.mdx": {
+      "sha256": "292914f5e8ce3d7aa15f00d812fff7f42d9e7715e51110235565b06eea1fc69f",
+      "bytes": 3685,
+      "words": 465,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/policies.mdx"
+    },
+    "providers.mdx": {
+      "sha256": "075e2a160b2e3b4269fec06a1147699359db81bc97e6ef25c25306a0789d9e1d",
+      "bytes": 63274,
+      "words": 8081,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/providers.mdx"
+    },
+    "references.mdx": {
+      "sha256": "e2ba34b82bfef747618792dbd83dc6bafab3f13e5e8676f3cbfa883a99a7929e",
+      "bytes": 4551,
+      "words": 605,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/references.mdx"
+    },
+    "rules.mdx": {
+      "sha256": "2d789f8467c7018a07b2307d44beb37ef13b10038aed1124aa20098cb4296fd9",
+      "bytes": 6758,
+      "words": 900,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/rules.mdx"
+    },
+    "sdk.mdx": {
+      "sha256": "147d4b88ce0dbcbfdb64df429f89280742ef95c34fef535ffbae95b840a6e93c",
+      "bytes": 19967,
+      "words": 1869,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/sdk.mdx"
+    },
+    "server.mdx": {
+      "sha256": "56aac4ea75990012a9ebf838d074760aa91e198f3b5859b38d6786b5e2d14c39",
+      "bytes": 18243,
+      "words": 1885,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/server.mdx"
+    },
+    "share.mdx": {
+      "sha256": "c9f9aa1d348c3da5a2e2591004983558b66d7bb56a2bdad9313e5d01d62dd11d",
+      "bytes": 2925,
+      "words": 411,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/share.mdx"
+    },
+    "skills.mdx": {
+      "sha256": "7ff4df3a1a4909fa0e0025a6f086c3dbc63d09fdd578bc13f3f4ae30fcfe4627",
+      "bytes": 4641,
+      "words": 589,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/skills.mdx"
+    },
+    "themes.mdx": {
+      "sha256": "5ccead60e73e32388c91769d629245162af2f6eb34c98007c8c87b9385487819",
+      "bytes": 9853,
+      "words": 1102,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/themes.mdx"
+    },
+    "tools.mdx": {
+      "sha256": "26a553033979aab97271c33b0efb8c187faba6a57b8af0b69080a46e0e696d79",
+      "bytes": 8440,
+      "words": 1101,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/tools.mdx"
+    },
+    "troubleshooting.mdx": {
+      "sha256": "95c5f784c1cbcdb857a7076350583c8d9fac389c953e9d00171801f9d6b7834d",
+      "bytes": 9539,
+      "words": 1358,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/troubleshooting.mdx"
+    },
+    "tui.mdx": {
+      "sha256": "399c6e7df9c5b8dd3cf429b6251a72965b6257af00aaa1b04e4353f9b366352d",
+      "bytes": 9758,
+      "words": 1352,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/tui.mdx"
+    },
+    "web.mdx": {
+      "sha256": "6a7501225b5ed7118dd756540e9e7430b54480522a2a3193ca4a55bc4ad0a30e",
+      "bytes": 3280,
+      "words": 453,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/web.mdx"
+    },
+    "windows-wsl.mdx": {
+      "sha256": "e236a7225fa7cd391737d207d4e299117db6c5efcfb2c6165d9dadc81dd1a510",
+      "bytes": 3052,
+      "words": 409,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/windows-wsl.mdx"
+    },
+    "zen.mdx": {
+      "sha256": "f0c78b16fd90798c8d3a36167edb2baac455b4f86b39833c23130cafeaa22f18",
+      "bytes": 25745,
+      "words": 3229,
+      "url": "https://raw.githubusercontent.com/anomalyco/opencode/040b8561400fcbe84eaf8d045ede46fc014e2d00/packages/web/src/content/docs/zen.mdx"
+    }
+  }
+}

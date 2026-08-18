@@ -1,0 +1,39 @@
+# Global book settings. Everything here feeds the fingerprint, so changing a
+# value marks affected chapters stale on the next `obook status`.
+
+title: The opencode Book
+subtitle: A practical guide to the open source AI coding agent
+audience: >
+  Working developers who are comfortable in a terminal and have used an AI
+  coding assistant at least casually, but have not run one as a configured,
+  automated part of their workflow.
+
+# chapter  -> one deduplicated source list at the end of each chapter (default)
+# inline   -> per-claim [^footnote] markers through the prose
+#
+# This is presentation only. Claim-level verification runs either way; the
+# audit trail always lands in build/<chapter>.claims.json.
+citation_style: chapter
+
+# Extraction budget in words per model call. Sources for a chapter are batched
+# to stay under this, so the corpus can grow well past any single context
+# window. Lower it if you see quality drop on long sources.
+max_source_words: 12000
+
+# How many times a chapter may be sent back for repair when the verify stage
+# finds unsupported passages.
+max_revisions: 1
+
+# Phrases the voice pass must never emit. Add to this every time you catch the
+# model reaching for a tic -- it is cheaper than rewriting prose by hand.
+banned_phrases:
+  - "delve"
+  - "it's worth noting"
+  - "in today's fast-paced world"
+  - "let's dive in"
+  - "in conclusion"
+  - "unlock the power of"
+  - "seamlessly"
+  - "robust solution"
+  - "game-changer"
+  - "at the end of the day"
