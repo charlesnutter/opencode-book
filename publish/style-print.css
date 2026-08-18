@@ -1,0 +1,33 @@
+/* PDF-only rules (weasyprint). Kept out of style.css because epubcheck's
+   CSS parser rejects the nested @bottom-center paged-media syntax, and
+   EPUB readers wouldn't honor @page sizing anyway. */
+
+@page {
+  size: 6.5in 9.5in;
+  margin: 0.8in 0.7in;
+  @bottom-center {
+    content: counter(page);
+    font-family: sans-serif;
+    font-size: 9pt;
+    color: #777;
+  }
+}
+
+@page :first {
+  margin: 0;
+  @bottom-center { content: ""; }
+}
+
+/* Print page is narrower than a Kindle's reflow width, so the same text
+   diagrams that fit safely on-device need a smaller code font here to
+   avoid wrapping (which breaks their column alignment). */
+pre {
+  font-size: 0.68em;
+}
+
+/* Bleed the title image to fill the (margin-less) first page. */
+.title-page-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

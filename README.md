@@ -19,6 +19,9 @@ python3 -m venv .venv && ./.venv/bin/pip install -e .
 ./.venv/bin/obook assemble        # concatenate into build/manuscript.md
 ```
 
+Then `publish/` turns those chapters into an EPUB and PDF — see
+[publish/README.md](publish/README.md). That stage is a **work in progress**.
+
 You need an OpenAI-compatible server running (LM Studio, `mlx_lm.server`,
 Ollama, llama.cpp). Point `models.yaml` at it. To exercise the pipeline with no
 model at all:
@@ -209,5 +212,20 @@ chapters/*/chapter.yaml  chapter specs
 prompts/               the 10 stage templates — the "skills"
 voice/exemplars.md     your writing samples
 build/                 generated chapters + claims audit trails
+publish/               EPUB/PDF conversion (WIP — see publish/README.md)
 obook/                 the tool
 ```
+
+---
+
+## Pipeline end to end
+
+```
+opencode docs  ->  obook sync     pinned corpus
+               ->  obook build    grounded chapters (build/*.md)
+               ->  obook assemble single manuscript
+               ->  publish/       EPUB + PDF
+```
+
+Stages 1–3 are working and tested. Stage 4 is documented but unproven against
+generated chapters.

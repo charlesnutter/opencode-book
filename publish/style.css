@@ -1,0 +1,97 @@
+@font-face {
+  font-family: "DejaVu Sans Mono";
+  font-weight: normal;
+  font-style: normal;
+  src: url(../fonts/DejaVuSansMono.ttf);
+}
+
+body {
+  font-family: serif;
+  line-height: 1.4;
+  text-align: justify;
+  orphans: 2;
+  widows: 2;
+}
+
+h1, h2, h3, h4 {
+  font-family: sans-serif;
+  text-align: left;
+  line-height: 1.2;
+}
+
+h1 {
+  page-break-before: always;
+}
+
+p {
+  margin: 0 0 0.8em 0;
+  text-indent: 0;
+}
+
+blockquote {
+  margin: 1em 1.2em;
+  padding: 0.4em 0.8em;
+  border-left: 3px solid #bbb;
+  font-style: italic;
+}
+
+blockquote pre, blockquote code {
+  font-style: normal;
+}
+
+pre, code {
+  font-family: "DejaVu Sans Mono", monospace;
+}
+
+pre {
+  font-size: 0.78em;
+  line-height: 1.35;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  background: #f4f3ef;
+  border: 1px solid #c9c5ba;
+  border-radius: 4px;
+  padding: 0.6em 0.8em;
+  margin: 1em 0;
+}
+
+code {
+  font-size: 0.9em;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1em auto;
+}
+
+figcaption {
+  display: none;
+}
+
+.hidden-heading {
+  display: none;
+}
+
+.title-page-image {
+  margin: 0 auto;
+  page-break-after: always;
+  break-after: page;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85em;
+}
+
+table, th, td {
+  border: 1px solid #ccc;
+}
+
+th, td {
+  padding: 0.3em 0.5em;
+  text-align: left;
+}

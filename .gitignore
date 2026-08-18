@@ -11,3 +11,6 @@ build/
 # The lock file IS committed; the doc bodies are not.
 corpus/docs/
 *.egg-info/
+
+# Publishing inputs you supply (cover art is yours, not generated).
+publish/assets/
