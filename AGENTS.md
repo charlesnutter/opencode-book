@@ -346,15 +346,34 @@ opencode searches six locations, one of which is tool-neutral:
 (plus `~/.config/opencode/`, `~/.claude/` and `~/.agents/` globals.)
 
 Put skills in **`.agents/skills/<name>/SKILL.md`** — note the leading dot.
-opencode reads that natively, so no symlink is needed for it; symlink
-`.claude/skills` → `../.agents/skills` if Claude Code needs the same set.
+opencode reads that natively, so no symlink is needed for it. Claude Code only
+looks in `.claude/skills/`, so that path symlinks back:
+
+```
+.agents/skills/         <- the real directory
+.claude/skills          -> ../.agents/skills
+```
 
 ### Agent definitions
 
-Markdown subagents are read from `.opencode/agents/` (project) and
-`~/.config/opencode/agents/` (global). There is no `.agents/` equivalent for
-these, so `.opencode/agents/` is the real directory and `.claude/agents` should
-symlink to it if you want them shared.
+A third location again, and the one case with **no `.agents/` equivalent**:
+
+| Tool | Project | Global |
+|---|---|---|
+| Claude Code | `.claude/agents/` | `~/.claude/agents/` |
+| opencode | `.opencode/agents/` | `~/.config/opencode/agents/` |
+
+Both take markdown with YAML frontmatter, and both let the filename or a `name`
+field become the agent name — but the frontmatter schemas differ (Claude Code
+uses `name`/`description`/`tools`/`model`; opencode uses
+`description`/`mode`/`model`/`permission`). They are **not** blindly
+interchangeable, so symlink one directory to the other only if the definitions
+you write stay within the fields both understand.
+
+Claude Code resolves conflicts by precedence: managed settings, then `--agents`
+CLI flag, then `.claude/agents/`, then `~/.claude/agents/`, then plugin
+directories. Nested project dirs are allowed and the definition closest to the
+working directory wins.
 
 None exist yet. `prompts/` holds the pipeline's stage templates, which are not
 agent definitions — they are inputs to `obook`, not files any tool discovers.
