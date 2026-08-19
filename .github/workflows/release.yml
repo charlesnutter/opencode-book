@@ -1,0 +1,132 @@
+name: Release
+
+# Cut an edition:
+#   scripts/sync-manuscript.sh
+#   scripts/changelog.py --version v0.2.0   # paste into CHANGELOG.md
+#   git commit -am "Book v0.2.0" && git tag v0.2.0 && git push --follow-tags
+#
+# Generation is NOT done here. The extract/draft/verify/voice pipeline needs a
+# local model; runners have neither the weights nor the memory. Chapters are
+# generated locally and committed to manuscript/. This workflow only packages
+# what is already committed, which is deterministic and safe to automate.
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing tag to (re)package"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    name: Package markdown edition
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # tags needed for the changelog diff
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: pip install -e .
+
+      - name: Verify the manuscript is real
+        run: |
+          set -euo pipefail
+          test -d manuscript || { echo "No manuscript/ — run sync-manuscript.sh"; exit 1; }
+          count=$(find manuscript -name '*.md' ! -name 'README.md' | wc -l)
+          echo "$count chapter(s)"
+          test "$count" -gt 0 || { echo "manuscript/ has no chapters"; exit 1; }
+
+          # Advisory only. Placeholder chapters are legitimate for a proof-of-
+          # concept edition, but the run should say so out loud rather than
+          # let mock output ship silently as a finished book.
+          python scripts/changelog.py --manuscript manuscript || \
+            echo "::warning::manuscript contains short/placeholder chapters"
+
+      - name: Assemble
+        run: |
+          set -euo pipefail
+          mkdir -p build
+          cp manuscript/*.md build/
+          rm -f build/README.md
+          opencode-book assemble
+          wc -w build/manuscript.md
+
+      - name: Extract release notes
+        id: notes
+        run: |
+          python - <<'PY' > RELEASE_NOTES.md
+          import os, re, pathlib
+          tag = os.environ.get("TAG") or ""
+          text = pathlib.Path("CHANGELOG.md").read_text(encoding="utf-8")
+          # Pull the section whose heading starts with this tag.
+          blocks = re.split(r"^## ", text, flags=re.M)[1:]
+          match = next((b for b in blocks if b.startswith(tag.lstrip("v")) or b.startswith(tag)), None)
+          print("## " + match.strip() if match else
+                f"Edition {tag}. See CHANGELOG.md for details.")
+          PY
+          cat RELEASE_NOTES.md
+        env:
+          TAG: ${{ github.event.inputs.tag || github.ref_name }}
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.inputs.tag || github.ref_name }}
+        run: |
+          set -euo pipefail
+          cp corpus/lock.json corpus-lock.json   # provenance: which docs this was built from
+          gh release create "$TAG" \
+            --title "opencode-book $TAG" \
+            --notes-file RELEASE_NOTES.md \
+            build/manuscript.md \
+            corpus-lock.json \
+            || gh release upload "$TAG" build/manuscript.md corpus-lock.json --clobber
+
+  # ---------------------------------------------------------------------------
+  # EPUB / PDF — the pathway, deliberately not enabled yet.
+  #
+  # publish/ has never been run end to end against generated chapters (gap G5 in
+  # documentation/03-gaps-and-mitigations.md). Debugging pandoc through CI logs
+  # is far worse than debugging it in a local container, so this stays off until
+  # `publish/build.sh` has succeeded locally at least once.
+  #
+  # To enable: run it locally, fix what breaks, then change `if: false` below to
+  # `needs: package` and delete this comment.
+  # ---------------------------------------------------------------------------
+  publish:
+    name: Build EPUB and PDF
+    runs-on: ubuntu-latest
+    needs: package
+    if: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build container
+        run: docker build -t ocbook-publish publish/
+
+      - name: Build EPUB and PDF
+        run: |
+          mkdir -p build
+          cp manuscript/*.md build/
+          rm -f build/README.md
+          docker run --rm -v "$PWD:/work" ocbook-publish bash /work/publish/build.sh
+
+      - name: Attach to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.inputs.tag || github.ref_name }}
+        run: |
+          gh release upload "$TAG" \
+            build/publish/opencode-book.epub \
+            build/publish/opencode-book.pdf \
+            --clobber

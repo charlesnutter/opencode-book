@@ -9,6 +9,7 @@ actually been run, and what has not.
 | [02-poc-replay-process.md](02-poc-replay-process.md) | The replay walkthrough used to prove the pipeline without a local model |
 | [03-gaps-and-mitigations.md](03-gaps-and-mitigations.md) | Known gaps, ranked, with recommended fixes |
 | [04-next-steps.md](04-next-steps.md) | Ordered next actions |
+| [05-releases.md](05-releases.md) | Versioning, changelog, and release workflow *(personal workflow — removable)* |
 
 ## The two processes, and how they relate
 
