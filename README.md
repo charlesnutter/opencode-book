@@ -22,6 +22,9 @@ python3 -m venv .venv && ./.venv/bin/pip install -e .
 Then `publish/` turns those chapters into an EPUB and PDF — see
 [publish/README.md](publish/README.md). That stage is a **work in progress**.
 
+Working on this project? Read [agents/AGENTS.md](agents/AGENTS.md) — the rules
+there each trace to something that went wrong once.
+
 Full write-up in [documentation/](documentation/): the
 [build process](documentation/01-build-process.md), the
 [POC replay walkthrough](documentation/02-poc-replay-process.md),
