@@ -127,14 +127,14 @@ class Corpus:
     def lock(self) -> dict:
         if not self.lock_path.exists():
             raise FileNotFoundError(
-                f"No corpus lock at {self.lock_path}. Run: obook sync"
+                f"No corpus lock at {self.lock_path}. Run: opencode-book sync"
             )
         return json.loads(self.lock_path.read_text(encoding="utf-8"))
 
     def doc_text(self, doc: str) -> str:
         path = self.docs_dir / doc
         if not path.exists():
-            raise FileNotFoundError(f"Doc not in corpus: {doc}. Run: obook sync")
+            raise FileNotFoundError(f"Doc not in corpus: {doc}. Run: opencode-book sync")
         return path.read_text(encoding="utf-8")
 
     def sections(self) -> dict[str, Section]:

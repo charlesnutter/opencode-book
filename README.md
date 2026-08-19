@@ -1,4 +1,4 @@
-# obook
+# opencode-book
 
 Build a book from [opencode](https://opencode.ai)'s documentation, using local
 models, with every factual claim machine-checked against the source.
@@ -13,10 +13,10 @@ or you tune a prompt, you regenerate exactly what's affected.
 
 ```bash
 python3 -m venv .venv && ./.venv/bin/pip install -e .
-./.venv/bin/obook sync            # fetch + pin the docs corpus
-./.venv/bin/obook status          # what needs building
-./.venv/bin/obook build 05-agents-and-subagents
-./.venv/bin/obook assemble        # concatenate into build/manuscript.md
+./.venv/bin/opencode-book sync            # fetch + pin the docs corpus
+./.venv/bin/opencode-book status          # what needs building
+./.venv/bin/opencode-book build 05-agents-and-subagents
+./.venv/bin/opencode-book assemble        # concatenate into build/manuscript.md
 ```
 
 Then `publish/` turns those chapters into an EPUB and PDF — see
@@ -37,7 +37,7 @@ model at all:
 
 ```bash
 python tests/mock_server.py &     # returns real quotes + one fabrication
-./.venv/bin/obook build 07-skills-and-commands --force
+./.venv/bin/opencode-book build 07-skills-and-commands --force
 ```
 
 ---
@@ -53,7 +53,7 @@ voice     style pass against exemplars      voice model
 ```
 
 **The validate stage is the point of the whole thing.** The extractor must
-return a verbatim quote for every claim; `obook` then asserts that quote appears
+return a verbatim quote for every claim; `opencode-book` then asserts that quote appears
 literally in the cited source file. It's a string comparison, so it cannot
 itself hallucinate. Published citation-hallucination rates for LLMs run roughly
 11–57%; a substring assertion collapses the fabricated-citation class to about
@@ -91,7 +91,7 @@ Sources are `doc#anchor` refs, not free text. Many docs can feed one chapter;
 one doc can feed many chapters. List valid anchors with:
 
 ```bash
-obook anchors --doc agents.mdx
+opencode-book anchors --doc agents.mdx
 ```
 
 A bad ref fails loudly at build time with the list of valid anchors, rather than
@@ -109,7 +109,7 @@ chapter spec  +  prompt templates  +  source excerpts  +  model identity
 
 | You change | What rebuilds |
 |---|---|
-| upstream docs (`obook sync`) | only chapters citing changed sections |
+| upstream docs (`opencode-book sync`) | only chapters citing changed sections |
 | a file in `prompts/` | every chapter |
 | a model in `models.yaml` | every chapter, and outputs are diffable |
 | one `chapter.yaml` | that chapter |
@@ -148,7 +148,7 @@ an M3 Ultra on an 80B MoE despite a third the bandwidth.
 Run the bake-off before committing to a model:
 
 ```bash
-obook bakeoff 05-agents-and-subagents --models qwen3-30b-a3b,glm-4.7-flash,gpt-oss-20b
+opencode-book bakeoff 05-agents-and-subagents --models qwen3-30b-a3b,glm-4.7-flash,gpt-oss-20b
 ```
 
 Then read all three and pick the voice you'd actually publish. Local models are
@@ -212,7 +212,7 @@ So the scaling order is:
 To add non-opencode sources, drop `.md`/`.mdx` files into `corpus/docs/` with
 frontmatter `title:`, and cite them the same way. Two cautions:
 
-- `obook sync` currently overwrites `corpus/docs/` from upstream. Keep added
+- `opencode-book sync` currently overwrites `corpus/docs/` from upstream. Keep added
   material in a separate directory and extend `Corpus` to read both, or vendor
   it after syncing.
 - Verbatim quoting of third-party copyrighted material is a different legal
@@ -228,14 +228,14 @@ frontmatter `title:`, and cite them the same way. Two cautions:
 book.yaml              global settings, voice bans, citation style
 models.yaml            role -> model mapping
 corpus/lock.json       pinned commit + per-file hashes (committed)
-corpus/docs/           vendored docs (gitignored, from `obook sync`)
+corpus/docs/           vendored docs (gitignored, from `opencode-book sync`)
 chapters/*/chapter.yaml  chapter specs
 prompts/               the 10 stage templates — the "skills"
 voice/exemplars.md     your writing samples
 build/                 generated chapters + claims audit trails
 publish/               EPUB/PDF conversion (WIP — see publish/README.md)
 AGENTS.md              working rules (CLAUDE.md symlinks to it)
-obook/                 the tool
+opencode_book/                 the tool
 ```
 
 ---
@@ -243,9 +243,9 @@ obook/                 the tool
 ## Pipeline end to end
 
 ```
-opencode docs  ->  obook sync     pinned corpus
-               ->  obook build    grounded chapters (build/*.md)
-               ->  obook assemble single manuscript
+opencode docs  ->  opencode-book sync     pinned corpus
+               ->  opencode-book build    grounded chapters (build/*.md)
+               ->  opencode-book assemble single manuscript
                ->  publish/       EPUB + PDF
 ```
 

@@ -45,7 +45,7 @@ def fingerprint(
     )
 
 
-FM_OPEN = "<!--obook\n"
+FM_OPEN = "<!--opencode-book\n"
 FM_CLOSE = "\n-->\n"
 
 

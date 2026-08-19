@@ -1,4 +1,4 @@
-"""obook -- build a book from opencode's documentation."""
+"""opencode-book -- build a book from opencode's documentation."""
 from __future__ import annotations
 
 import argparse
@@ -158,7 +158,7 @@ def cmd_assemble(args) -> int:
 
 
 def main(argv=None) -> int:
-    p = argparse.ArgumentParser(prog="obook", description=__doc__)
+    p = argparse.ArgumentParser(prog="opencode-book", description=__doc__)
     p.add_argument("--root", default=".", help="project root (default: cwd)")
     sub = p.add_subparsers(dest="cmd", required=True)
 

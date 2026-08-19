@@ -24,10 +24,10 @@ python3 -m venv .venv
 ./.venv/bin/pip install -e .
 ```
 
-Two dependencies only: `pyyaml` and `httpx`. The `obook` console script lands in
-`.venv/bin/obook`.
+Two dependencies only: `pyyaml` and `httpx`. The `opencode-book` console script lands in
+`.venv/bin/opencode-book`.
 
-One packaging note: `pyproject.toml` pins `packages = ["obook"]` explicitly.
+One packaging note: `pyproject.toml` pins `packages = ["opencode-book"]` explicitly.
 Without it setuptools auto-discovery treats `corpus/`, `prompts/`, `chapters/`
 and `voice/` as Python packages and the install fails.
 
@@ -36,7 +36,7 @@ and `voice/` as Python packages and the install fails.
 ## Step 1 — Sync and pin the corpus
 
 ```bash
-./.venv/bin/obook sync
+./.venv/bin/opencode-book sync
 ```
 
 ```
@@ -70,7 +70,7 @@ instead.
 ## Step 2 — Find citable anchors
 
 ```bash
-./.venv/bin/obook anchors --doc agents.mdx
+./.venv/bin/opencode-book anchors --doc agents.mdx
 ```
 
 ```
@@ -122,7 +122,7 @@ Verify every spec resolves before spending model time:
 ./.venv/bin/python -c "
 import yaml
 from pathlib import Path
-from obook.corpus import Corpus
+from opencode_book.corpus import Corpus
 c = Corpus(Path('corpus'))
 for d in sorted(Path('chapters').iterdir()):
     spec = yaml.safe_load((d/'chapter.yaml').read_text())
@@ -191,10 +191,10 @@ mlx_lm.server --model mlx-community/Qwen3-30B-A3B-Instruct-2507-4bit --port 1234
 ## Step 5 — Build
 
 ```bash
-./.venv/bin/obook status          # what's stale
-./.venv/bin/obook build 05-agents # one chapter
-./.venv/bin/obook build           # everything stale
-./.venv/bin/obook build --force   # rebuild regardless
+./.venv/bin/opencode-book status          # what's stale
+./.venv/bin/opencode-book build 05-agents # one chapter
+./.venv/bin/opencode-book build           # everything stale
+./.venv/bin/opencode-book build --force   # rebuild regardless
 ```
 
 Chapter slugs accept unambiguous partials: `05`, `agents`, `05-agents` all
@@ -233,7 +233,7 @@ factual statement or touching code blocks.
 
 ### Stage-major ordering
 
-`obook build` with more than one chapter runs **stage-major**: every chapter
+`opencode-book build` with more than one chapter runs **stage-major**: every chapter
 through `extract`, then every chapter through `draft`, and so on. With
 per-role models this is 4 model loads per run instead of 4 per chapter — on 8
 chapters, 4 loads instead of 32. Failures are isolated per chapter, so one bad
@@ -257,7 +257,7 @@ chapter spec + prompt templates + source excerpts + model identity
 
 | You change | What rebuilds |
 |---|---|
-| upstream docs (`obook sync`) | only chapters citing changed sections |
+| upstream docs (`opencode-book sync`) | only chapters citing changed sections |
 | a file in `prompts/` | every chapter |
 | a model in `models.yaml` | every chapter, and outputs are diffable |
 | one `chapter.yaml` | that chapter |
@@ -265,9 +265,9 @@ chapter spec + prompt templates + source excerpts + model identity
 Verified behaviour:
 
 ```bash
-./.venv/bin/obook status | grep skills     # -> ok
+./.venv/bin/opencode-book status | grep skills     # -> ok
 printf '\n<!-- tweak -->\n' >> prompts/draft.md
-./.venv/bin/obook status | grep skills     # -> STALE
+./.venv/bin/opencode-book status | grep skills     # -> STALE
 ```
 
 ---
@@ -275,7 +275,7 @@ printf '\n<!-- tweak -->\n' >> prompts/draft.md
 ## Step 6 — Assemble
 
 ```bash
-./.venv/bin/obook assemble
+./.venv/bin/opencode-book assemble
 ```
 
 Concatenates built chapters in filename order into `build/manuscript.md`,
@@ -295,7 +295,7 @@ and epubcheck in a container.
 
 **This has never been executed against generated chapters.** The approach was
 proven on a different corpus (the community *Deep Dive into OpenCode* book →
-Kindle EPUB + 755-page PDF) and re-pointed at obook's output shape without a
+Kindle EPUB + 755-page PDF) and re-pointed at opencode-book's output shape without a
 test run. `publish/README.md` carries the full WIP caveat and — more valuable —
 seven confirmed gotchas, including Debian's broken `epubcheck` launcher, `@page`
 CSS failing epubcheck, and `--include-before-body` multiplying across every
@@ -311,7 +311,7 @@ Before the first run you must supply `publish/assets/cover.png`,
 
 ```bash
 ./.venv/bin/python tests/mock_server.py &
-./.venv/bin/obook build --force
+./.venv/bin/opencode-book build --force
 ```
 
 `tests/mock_server.py` returns real quotes pulled from the corpus plus one

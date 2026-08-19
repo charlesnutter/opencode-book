@@ -7,7 +7,7 @@
 > evaluation and refactoring before it should be trusted:
 >
 > - It was written against a different input shape (77 hand-authored files) and
->   re-pointed at obook's output without a full test run.
+>   re-pointed at opencode-book's output without a full test run.
 > - The EPUB and PDF invocations duplicate a lot of flags and have drifted
 >   apart; they should share one config rather than two near-copies.
 > - Whether pandoc is even the right tool here is worth revisiting — the
@@ -19,12 +19,12 @@
 > Treat the **gotchas section below as the durable value here** — those are
 > confirmed findings. Treat the scripts as a starting point to be rewritten.
 
-This is the intended final stage of obook: once `obook build` has generated
+This is the intended final stage of opencode-book: once `opencode-book build` has generated
 grounded chapters, this converts them into formats you can actually read on a
 device or hand to someone.
 
 ```
-opencode docs  ->  obook build  ->  build/*.md  ->  publish  ->  .epub / .pdf
+opencode docs  ->  opencode-book build  ->  build/*.md  ->  publish  ->  .epub / .pdf
 ```
 
 ## Provenance
@@ -36,14 +36,14 @@ into a Kindle-ready EPUB and a 755-page PDF. That original pipeline lives at
 repo — so treat it as scratch, not as a home).
 
 The code here is carried over from that working pipeline but **adapted to
-obook's output shape**, and it has not yet been run end-to-end against
-obook-generated chapters. The *approach* is proven; the wiring is not. Expect to
+opencode-book's output shape**, and it has not yet been run end-to-end against
+opencode-book-generated chapters. The *approach* is proven; the wiring is not. Expect to
 debug the first run.
 
 ## Running it
 
 ```bash
-# from repo root, after `obook build`
+# from repo root, after `opencode-book build`
 docker build -t ocbook-publish publish/
 docker run --rm -v "$(pwd):/work" ocbook-publish bash /work/publish/build.sh
 ```
@@ -63,7 +63,7 @@ they're yours to write:
 
 ## The pipeline
 
-1. **Collect chapters** — read `build/*.md`, strip obook's build-stamp comment.
+1. **Collect chapters** — read `build/*.md`, strip opencode-book's build-stamp comment.
 2. **Rasterize diagrams** — untagged fenced blocks that would break under
    reflow become PNGs; tagged code blocks stay as selectable text.
 3. **Build EPUB** — pandoc, with TOC, embedded mono font, cover.

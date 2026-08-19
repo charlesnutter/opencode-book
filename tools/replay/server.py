@@ -1,6 +1,6 @@
 """Replay server: serves hand-authored stage responses over the OpenAI API shape.
 
-Lets the real obook pipeline run end to end -- real corpus load, real prompt
+Lets the real opencode-book pipeline run end to end -- real corpus load, real prompt
 render, real validation, real fingerprint, real output write -- with a human
 (or a chat model) standing in for the local model.
 """

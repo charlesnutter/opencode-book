@@ -55,7 +55,7 @@ class Models:
         return self.specs[role]
 
     def override(self, role: str, model: str) -> None:
-        """Point one role at a different model (used by `obook bakeoff`)."""
+        """Point one role at a different model (used by `opencode-book bakeoff`)."""
         base = self.spec(role)
         self.specs[role] = ModelSpec(
             role=role,

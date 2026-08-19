@@ -1,5 +1,5 @@
 [project]
-name = "obook"
+name = "opencode-book"
 version = "0.1.0"
 description = "Build a book from opencode's documentation, with grounded sources."
 requires-python = ">=3.10"
@@ -9,7 +9,9 @@ dependencies = [
 ]
 
 [project.scripts]
-obook = "obook.cli:main"
+opencode-book = "opencode_book.cli:main"
+# Short alias for typing convenience -- delete if you want a single name.
+obook = "opencode_book.cli:main"
 
 [build-system]
 requires = ["setuptools>=68"]
@@ -17,5 +19,7 @@ build-backend = "setuptools.build_meta"
 
 # corpus/, prompts/, chapters/ and voice/ are book content, not Python
 # packages -- name the one real package so auto-discovery doesn't claim them.
+# Underscored because Python imports cannot contain hyphens; the distribution
+# and CLI are both spelled opencode-book.
 [tool.setuptools]
-packages = ["obook"]
+packages = ["opencode_book"]

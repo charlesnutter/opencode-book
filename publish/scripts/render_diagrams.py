@@ -17,7 +17,7 @@ guaranteed by every e-reader font).
 Usage:
     render_diagrams.py <src_dir> <out_src_dir> <out_img_dir>
 
-On an obook manuscript this is often a near no-op -- opencode's docs are mostly
+On an opencode-book manuscript this is often a near no-op -- opencode's docs are mostly
 tagged code blocks. It stays in the pipeline because the cost of running it is
 nil and the cost of shipping a mangled diagram is a bad page in a finished book.
 """

@@ -14,7 +14,7 @@ bypassed. Real corpus loading, real prompt rendering, real validation, real
 fingerprinting, real source-list generation, real output writing.
 
 ```
-obook build 05-agents ──HTTP──► tools/replay/server.py ──► hand-authored responses
+opencode-book build 05-agents ──HTTP──► tools/replay/server.py ──► hand-authored responses
 ```
 
 The point was to test the *machinery* while removing the model as a variable. If
@@ -35,7 +35,7 @@ pipeline failures when the real problem is source-material shortage.
 ./.venv/bin/python -c "
 import yaml
 from pathlib import Path
-from obook.corpus import Corpus
+from opencode_book.corpus import Corpus
 c = Corpus(Path('corpus'))
 spec = yaml.safe_load(Path('chapters/05-agents-and-subagents/chapter.yaml').read_text())
 for r in spec['sources']:
@@ -71,8 +71,8 @@ substring check.
 ./.venv/bin/python -c "
 import json, yaml
 from pathlib import Path
-from obook.corpus import Corpus
-from obook.validate import validate_claims
+from opencode_book.corpus import Corpus
+from opencode_book.validate import validate_claims
 c = Corpus(Path('corpus'))
 spec = yaml.safe_load(Path('chapters/05-agents-and-subagents/chapter.yaml').read_text())
 r = validate_claims(json.load(open('tools/replay/extract.json')), c, spec['sources'])
@@ -104,7 +104,7 @@ guarantee the quotes are exact:
 import json, sys
 sys.path.insert(0, '.')
 from pathlib import Path
-from obook.corpus import Corpus
+from opencode_book.corpus import Corpus
 c = Corpus(Path('corpus'))
 
 def block(ref, start, end=None):
@@ -176,7 +176,7 @@ loop appears not to fire. This bit during testing.
 lsof -ti:1234 | xargs kill -9 2>/dev/null       # ensure a clean server
 ./.venv/bin/python tools/replay/server.py 1234 &
 rm -f build/05-agents-and-subagents.*
-./.venv/bin/obook build 05-agents --force
+./.venv/bin/opencode-book build 05-agents --force
 ```
 
 ```
@@ -227,7 +227,7 @@ and a chapter-level source list:
   - Pinned at commit `040b8561`
 ```
 
-Both revisions are present in the final artifact, and `obook status` reports the
+Both revisions are present in the final artifact, and `opencode-book status` reports the
 chapter `ok`.
 
 ---
@@ -257,6 +257,6 @@ the verify counter is stateful.
 ```bash
 lsof -ti:1234 | xargs kill -9 2>/dev/null
 ./.venv/bin/python tools/replay/server.py 1234 &
-./.venv/bin/obook build 05-agents --force
+./.venv/bin/opencode-book build 05-agents --force
 lsof -ti:1234 | xargs kill -9
 ```

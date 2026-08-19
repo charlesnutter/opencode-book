@@ -26,7 +26,7 @@ From the pipeline's perspective nothing was different.
 
 ```
                           ┌─ production:  MLX / LM Studio / Ollama / hosted API
-obook build ──HTTP──────► │
+opencode-book build ──HTTP──────► │
                           └─ POC:         tools/replay/server.py
 ```
 

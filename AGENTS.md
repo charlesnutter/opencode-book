@@ -1,6 +1,6 @@
 # Agent guidelines
 
-Instructions for an agent working on **obook** — a build system that generates a
+Instructions for an agent working on **opencode-book** — a build system that generates a
 how-to book about opencode from official documentation and third-party sources,
 with every factual claim machine-checked against its source.
 
@@ -20,7 +20,7 @@ quietly wrong, which is worse than an obvious failure.
 
 1. **The drafter never sees raw sources.** It receives validated claims only.
    This is what stops it "remembering" a flag that does not exist.
-2. **Validation is code, never a model.** `obook/validate.py` asserts each quote
+2. **Validation is code, never a model.** `opencode_book/validate.py` asserts each quote
    is a literal substring of its cited source. Do not add fuzzy matching, edit
    distance, or "close enough" thresholds. The value of the check is that it
    cannot itself hallucinate.
@@ -57,7 +57,7 @@ able to name the command that established it.
 
 ### Official documentation
 
-- Sync with `obook sync`. It pins a commit into `corpus/lock.json`; that pin is
+- Sync with `opencode-book sync`. It pins a commit into `corpus/lock.json`; that pin is
   what makes citations permanent.
 - **Only top-level `.mdx` files are canonical English.** Anything one level
   deeper is a locale translation. There are 17 locales — including them inflates
@@ -72,7 +72,7 @@ able to name the command that established it.
 The book is expected to draw on articles and general background material, not
 just opencode's docs. Rules for that:
 
-1. **Put them in `corpus/external/`, never `corpus/docs/`.** `obook sync`
+1. **Put them in `corpus/external/`, never `corpus/docs/`.** `opencode-book sync`
    overwrites `corpus/docs/` wholesale — anything you add there is destroyed on
    the next sync.
 2. **Require frontmatter**: `title:`, `source_url:`, `retrieved:`, and
@@ -106,7 +106,7 @@ These are separate works with separate rights holders.
 ## 4. Chapter specs
 
 - Sources are `doc#anchor` refs, never free text. Find them with
-  `obook anchors --doc agents.mdx`.
+  `opencode-book anchors --doc agents.mdx`.
 - **Verify every ref resolves before spending model time.** A bad ref fails the
   build; catching it earlier is cheaper.
 - **Treat `target_words` as a ceiling, not a quota.** A target far above the
@@ -119,7 +119,7 @@ These are separate works with separate rights holders.
 ./.venv/bin/python -c "
 import yaml
 from pathlib import Path
-from obook.corpus import Corpus
+from opencode_book.corpus import Corpus
 c = Corpus(Path('corpus'))
 for d in sorted(Path('chapters').iterdir()):
     s = yaml.safe_load((d/'chapter.yaml').read_text())
@@ -258,7 +258,7 @@ Small things that cost real time:
   dedicated exception instead.
 - `argparse` treats a value beginning with `-` as a flag. Use `--opt=value`.
 - setuptools auto-discovery claims content directories as packages. Keep
-  `packages = ["obook"]` pinned in `pyproject.toml`.
+  `packages = ["opencode-book"]` pinned in `pyproject.toml`.
 
 ---
 
@@ -310,8 +310,76 @@ that matter most:
    untested assumption.
 2. **`voice/exemplars.md` is placeholder text.**
 3. **`build/` mixes one real chapter with seven mock placeholders**, and
-   `obook status` calls them all `ok` — a valid fingerprint says nothing about
+   `opencode-book status` calls them all `ok` — a valid fingerprint says nothing about
    which backend produced it. Clear the directory when switching backends.
+
+---
+
+## 15. Interoperability standards
+
+The goal is that someone can move between Claude Code, opencode, and other
+harnesses without rewriting configuration. Most of that is now settled by open
+standards — do not invent local conventions where one already exists.
+
+| Layer | Standard | Governance |
+|---|---|---|
+| Instructions | **AGENTS.md** — <https://agents.md> | Linux Foundation / Agentic AI Foundation |
+| Skills | **Agent Skills** (`SKILL.md`) — <https://agentskills.io> | Anthropic-originated, open spec |
+| Packaging | **Agent Plugins 1.0** — <https://github.com/agentplugins/agent-plugins-spec> | AAIF (Amazon, Cursor, Microsoft, OpenAI, Vercel) |
+| Tools | **MCP** | AAIF |
+| Subagents | *none* | — |
+
+### The distinction that causes confusion
+
+**Agent Skills standardizes the skill *format*, not the *discovery location*.**
+The spec defines the folder layout and frontmatter; it says nothing about where
+clients look. That is why opencode searches six paths and Claude Code searches
+one, and why a neutral directory plus a symlink is a real fix rather than a
+workaround. Expect the same split in any future "standard": check whether it
+covers format, location, or both.
+
+`SKILL.md` frontmatter, per the spec:
+
+| Field | Required | Notes |
+|---|---|---|
+| `name` | yes | ≤64 chars, lowercase/digits/hyphens, must match the parent directory name |
+| `description` | yes | ≤1024 chars; state what it does *and* when to use it |
+| `license` | no | name or bundled file reference |
+| `compatibility` | no | ≤500 chars; environment requirements |
+| `metadata` | no | arbitrary string map |
+| `allowed-tools` | no | space-separated; experimental, support varies |
+
+Keep `SKILL.md` under ~500 lines and push detail into `references/` — agents load
+skills progressively (name + description at startup, body on activation,
+resources on demand), so a bloated `SKILL.md` costs context on every task.
+
+### Subagents have no standard
+
+Both tools use markdown with YAML frontmatter, but the schemas differ:
+
+| | Claude Code | opencode |
+|---|---|---|
+| Fields | `name`, `description`, `tools`, `model`, `permissionMode`, `maxTurns`, `skills` | `description`, `mode`, `model`, `permission`, `temperature` |
+
+Agent Plugins 1.0 standardizes exactly two component types — Agent Skills and
+MCP servers — and deliberately leaves subagents out. Treat that as the
+ecosystem's current answer, not an oversight to route around.
+
+**Rule: write subagent definitions to the intersection.** `description` and
+`model` mean the same thing in both. Stick to those and symlink one directory to
+the other. Accept that per-tool tuning (`tools` vs `permission`) does not
+transfer, and do not build a translation layer for a format that is still
+moving.
+
+### Caveats
+
+- **Portable is not verified.** A skill that loads everywhere does not behave
+  identically everywhere. Test against each harness you claim to support.
+- **Agent Plugins 1.0 has no security model** — no permissions, sandboxing,
+  signature checks, or secrets handling. All listed as future work. Fine for
+  distributing your own work; a real consideration before installing others'.
+- **Re-check this section periodically.** Every standard in the table postdates
+  mid-2025, and two of them shipped within the last nine months.
 
 ---
 
@@ -376,4 +444,4 @@ directories. Nested project dirs are allowed and the definition closest to the
 working directory wins.
 
 None exist yet. `prompts/` holds the pipeline's stage templates, which are not
-agent definitions — they are inputs to `obook`, not files any tool discovers.
+agent definitions — they are inputs to `opencode-book`, not files any tool discovers.

@@ -2,7 +2,7 @@
 # Convert generated chapters into EPUB and PDF.
 #
 # Runs inside the ocbook-publish container with the repo mounted at /work.
-# Inputs come from `obook build` + `obook assemble`; outputs land in
+# Inputs come from `opencode-book build` + `opencode-book assemble`; outputs land in
 # build/publish/.
 set -euo pipefail
 
@@ -16,11 +16,11 @@ PDF="$PUB/opencode-book.pdf"
 mkdir -p "$PUB"
 
 echo "== 1/5 collecting chapters =="
-# obook writes one file per chapter, prefixed for reading order. Strip the
-# build stamp comment obook embeds at the top of each.
+# opencode-book writes one file per chapter, prefixed for reading order. Strip the
+# build stamp comment opencode-book embeds at the top of each.
 mapfile -t CHAPTERS < <(find build -maxdepth 1 -name "*.md" ! -name "manuscript.md" | sort)
 if [ "${#CHAPTERS[@]}" -eq 0 ]; then
-  echo "No chapters in build/. Run: obook build" >&2
+  echo "No chapters in build/. Run: opencode-book build" >&2
   exit 1
 fi
 echo "${#CHAPTERS[@]} chapters"
@@ -32,7 +32,7 @@ for f in "${CHAPTERS[@]}"; do
 import sys, pathlib
 src, dst = pathlib.Path(sys.argv[1]), pathlib.Path(sys.argv[2])
 text = src.read_text(encoding="utf-8")
-if text.startswith("<!--obook\n"):
+if text.startswith("<!--opencode-book\n"):
     end = text.find("\n-->\n")
     if end != -1:
         text = text[end + len("\n-->\n"):]

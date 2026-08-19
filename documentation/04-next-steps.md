@@ -30,7 +30,7 @@ already know you hate.
 # ~17 GB
 mlx_lm.server --model mlx-community/Qwen3-30B-A3B-Instruct-2507-4bit --port 1234
 
-./.venv/bin/obook bakeoff 05-agents --models qwen3-30b-a3b-instruct-2507,glm-4.7-flash
+./.venv/bin/opencode-book bakeoff 05-agents --models qwen3-30b-a3b-instruct-2507,glm-4.7-flash
 ```
 
 Chapter 05 is the right subject: it is the one chapter with a known-good
@@ -63,7 +63,7 @@ Both are edits to `prompts/extract.md`:
 - Forbid claims that assert more than their quote establishes.
 
 Then re-run chapter 05 and diff against the replay output. Because prompt
-changes move the fingerprint, `obook status` will correctly mark all eight
+changes move the fingerprint, `opencode-book status` will correctly mark all eight
 chapters stale — a good incidental test of the staleness machinery against a
 real model.
 
@@ -102,8 +102,8 @@ and worth recording, since it justifies the memory cost.
 
 ```bash
 rm -f build/*.md build/*.claims.json    # clear mock artifacts (G7)
-./.venv/bin/obook build
-./.venv/bin/obook assemble
+./.venv/bin/opencode-book build
+./.venv/bin/opencode-book assemble
 ```
 
 Then read `build/manuscript.md` end to end. This is the first point at which

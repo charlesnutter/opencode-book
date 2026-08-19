@@ -18,7 +18,7 @@ warm, long-form writing — which is exactly the quality this book depends on.
 **Mitigation.** Run the bake-off before building anything else:
 
 ```bash
-./.venv/bin/obook bakeoff 05-agents --models qwen3-30b-a3b,glm-4.7-flash
+./.venv/bin/opencode-book bakeoff 05-agents --models qwen3-30b-a3b,glm-4.7-flash
 ```
 
 Read both against `tools/replay/draft.md` as a reference point. The decision
@@ -70,7 +70,7 @@ Add a preflight warning when `target_words` exceeds source words:
 ./.venv/bin/python -c "
 import yaml
 from pathlib import Path
-from obook.corpus import Corpus
+from opencode_book.corpus import Corpus
 c = Corpus(Path('corpus'))
 for d in sorted(Path('chapters').iterdir()):
     s = yaml.safe_load((d/'chapter.yaml').read_text())
@@ -155,7 +155,7 @@ a bug.
 
 `publish/` is documented and its assets are carried over from a pipeline that
 genuinely worked — but on a different corpus (77 hand-authored files), and it
-was re-pointed at obook's output shape without a test run.
+was re-pointed at opencode-book's output shape without a test run.
 
 Specific unknowns: whether the build-stamp stripper handles every chapter,
 whether the diagram heuristics fire correctly on generated content (opencode
@@ -181,7 +181,7 @@ recur on a fresh machine — read them before debugging.
 
 ## G6: Corpus expansion is not wired up
 
-`obook sync` overwrites `corpus/docs/` wholesale from upstream, so any
+`opencode-book sync` overwrites `corpus/docs/` wholesale from upstream, so any
 third-party article dropped there is destroyed on the next sync.
 
 **Mitigation.** Add a second directory — `corpus/external/` — that `sync` never
@@ -203,7 +203,7 @@ at it properly.
 ## G7: build/ mixes real and placeholder artifacts
 
 Right now `build/` holds one real chapter and seven mock placeholders, and
-`obook status` reports all eight as `ok` because a valid fingerprint says
+`opencode-book status` reports all eight as `ok` because a valid fingerprint says
 nothing about which backend produced it.
 
 | Chapter | Claims | Words | Source |
@@ -213,7 +213,7 @@ nothing about which backend produced it.
 
 **Mitigation.** Record the backend in the build stamp — the model `base_url` is
 already captured, so add a `backend: mock \| replay \| live` field and surface it
-in `obook status`. Until then, clear the directory when switching backends:
+in `opencode-book status`. Until then, clear the directory when switching backends:
 
 ```bash
 rm -f build/*.md build/*.claims.json

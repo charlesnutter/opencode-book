@@ -1,5 +1,5 @@
 # Global book settings. Everything here feeds the fingerprint, so changing a
-# value marks affected chapters stale on the next `obook status`.
+# value marks affected chapters stale on the next `opencode-book status`.
 
 title: The opencode Book
 subtitle: A practical guide to the open source AI coding agent

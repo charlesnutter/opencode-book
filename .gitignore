@@ -7,7 +7,7 @@ __pycache__/
 # prose changes as diffs in PRs -- that is a reasonable choice for a book.
 build/
 
-# Vendored docs are pulled by `obook sync` and pinned in corpus/lock.json.
+# Vendored docs are pulled by `opencode-book sync` and pinned in corpus/lock.json.
 # The lock file IS committed; the doc bodies are not.
 corpus/docs/
 *.egg-info/

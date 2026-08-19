@@ -39,7 +39,7 @@ One real directory, both tools satisfied, no copies to drift.
   - opencode: `.opencode/agents/` (project), `~/.config/opencode/agents/` (global)
 
   To single-source those, make one the real directory and symlink the other.
-- **`prompts/`** — the obook pipeline's stage templates. Inputs to the build,
+- **`prompts/`** — the opencode-book pipeline's stage templates. Inputs to the build,
   not files any agent tool discovers.
 
 ## Nothing here yet

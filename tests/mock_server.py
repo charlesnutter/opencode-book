@@ -6,7 +6,7 @@ something genuine to accept -- plus one deliberately fabricated claim, so the
 rejection path is exercised on every test run.
 
     python tests/mock_server.py &
-    obook build 07-skills-and-commands --force
+    opencode-book build 07-skills-and-commands --force
 """
 from __future__ import annotations
 
@@ -17,7 +17,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from obook.corpus import Corpus  # noqa: E402
+from opencode_book.corpus import Corpus  # noqa: E402
 
 CORPUS = Corpus(Path(__file__).resolve().parents[1] / "corpus")
 SOURCE_RE = re.compile(r'<source ref="([^"]+)"', re.M)
