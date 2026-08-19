@@ -1,0 +1,12 @@
+[
+  {
+    "passage": "By default it sets things to `ask` rather than doing them, so it can look at everything and change nothing without checking first.",
+    "cited": "plan-asks",
+    "verdict": "supported"
+  },
+  {
+    "passage": "You can also define agents using markdown files.",
+    "cited": "md-locations",
+    "verdict": "supported"
+  }
+]

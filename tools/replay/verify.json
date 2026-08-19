@@ -1,0 +1,39 @@
+[
+  {
+    "passage": "By default it sets file edits and bash commands to `ask`, so it can look at everything and change nothing without checking first.",
+    "cited": "plan-asks",
+    "verdict": "unsupported",
+    "note": "The evidence quote states only that some items default to `ask`; it does not name file edits or bash, so the specific list is not established."
+  },
+  {
+    "passage": "You can define agents using markdown, placed either globally or per project, in an agents directory.",
+    "cited": "md-locations",
+    "verdict": "unsupported",
+    "note": "The quote ends at 'Place them in:' without the directory paths, so global vs per-project locations are not supported by the evidence."
+  },
+  {
+    "passage": "There are two types of agents in opencode: primary agents and subagents.",
+    "cited": "two-types",
+    "verdict": "supported"
+  },
+  {
+    "passage": "Build is the default primary agent, with all tools enabled.",
+    "cited": "build-default",
+    "verdict": "supported"
+  },
+  {
+    "passage": "Explore is fast and read-only. It cannot modify files.",
+    "cited": "explore-readonly",
+    "verdict": "supported"
+  },
+  {
+    "passage": "The last matching rule takes precedence, so put the `*` wildcard first and the specific rules after.",
+    "cited": "perm-order",
+    "verdict": "supported"
+  },
+  {
+    "passage": "the legacy `maxSteps` field is deprecated, and `steps` is the current spelling",
+    "cited": "steps-deprecated",
+    "verdict": "supported"
+  }
+]

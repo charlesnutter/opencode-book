@@ -18,3 +18,6 @@ publish/assets/
 # Exported session transcripts. Local record only -- they contain full paths,
 # tool output, and anything pasted mid-session.
 sessions/
+
+# Replay harness debug dumps, rewritten on every run.
+tools/replay/seen_*.txt

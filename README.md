@@ -22,6 +22,12 @@ python3 -m venv .venv && ./.venv/bin/pip install -e .
 Then `publish/` turns those chapters into an EPUB and PDF — see
 [publish/README.md](publish/README.md). That stage is a **work in progress**.
 
+Full write-up in [documentation/](documentation/): the
+[build process](documentation/01-build-process.md), the
+[POC replay walkthrough](documentation/02-poc-replay-process.md),
+[known gaps](documentation/03-gaps-and-mitigations.md), and
+[next steps](documentation/04-next-steps.md).
+
 You need an OpenAI-compatible server running (LM Studio, `mlx_lm.server`,
 Ollama, llama.cpp). Point `models.yaml` at it. To exercise the pipeline with no
 model at all:
