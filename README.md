@@ -22,8 +22,8 @@ python3 -m venv .venv && ./.venv/bin/pip install -e .
 Then `publish/` turns those chapters into an EPUB and PDF — see
 [publish/README.md](publish/README.md). That stage is a **work in progress**.
 
-Working on this project? Read [agents/AGENTS.md](agents/AGENTS.md) — the rules
-there each trace to something that went wrong once.
+Working on this project? Read [AGENTS.md](AGENTS.md) — the rules there each
+trace to something that went wrong once.
 
 Full write-up in [documentation/](documentation/): the
 [build process](documentation/01-build-process.md), the
@@ -234,6 +234,7 @@ prompts/               the 10 stage templates — the "skills"
 voice/exemplars.md     your writing samples
 build/                 generated chapters + claims audit trails
 publish/               EPUB/PDF conversion (WIP — see publish/README.md)
+AGENTS.md              working rules (CLAUDE.md symlinks to it)
 obook/                 the tool
 ```
 
